@@ -1,0 +1,24 @@
+FROM docker:stable as static-docker-source
+
+FROM alpine:edge
+
+#####################################################################
+
+ARG WORKDIR=/opt/apps
+WORKDIR ${WORKDIR}
+RUN mkdir -p ${WORKDIR}/bin
+ENV PATH=$PATH:${WORKDIR}/bin
+
+#####################################################################
+
+#####################################################################
+
+#### Pulumi ####
+RUN pulumi plugin install resource rancher2 2.1.1
+RUN pulumi plugin install resource rke 2.0.0 --server https://github.com/jaxxstorm/pulumi-rke/releases/download/v2.0.0
+
+#####################################################################
+
+WORKDIR /apps
+
+#####################################################################

@@ -1,0 +1,11 @@
+sudo: required
+
+services:
+  - docker
+
+script:
+  - bash ./build.sh
+
+env:
+  - tag=core
+  - tag=full
