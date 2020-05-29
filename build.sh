@@ -21,15 +21,34 @@ build() {
     # echo ${iam_auth_url}
     
     echo "Found new version, building the image ${image}:${tag}"
+    rm -rf dcktmp-*
+    
     if [[ "${tag}" == "core" ]]; then
-        dockerfile="Dockerfile"
+        cp Dockerfile dcktmp-core
+        dockerfile="dcktmp-core"
+    elif [[ "${tag}" == "full" ]]; then
+        dockerfile="dcktmp-${tag}"
+        for i in $(ls parts/*.yaml); do
+            cat $i >> ${dockerfile}
+        done
     else
-        dockerfile="Dockerfile-${tag}"
+        dockerfile="dcktmp-${tag}"
+        cat parts/*head* parts/*${tag}* parts/*footer* > ${dockerfile}
     fi
     
-    # docker build --no-cache --build-arg KUBECTL_VERSION=${tag} --build-arg HELM_VERSION=${helm} --build-arg AWS_IAM_AUTH_VERSION_URL="${iam_auth_url}" -t ${image}:${tag} -f ${dockerfile} .
-    docker build -t ${image}:${tag} -f ${dockerfile} .
+    # docker build . \
+    #     --no-cache \
+    #     --build-arg KUBECTL_VERSION=${tag} \
+    #     --build-arg HELM_VERSION=${helm} \
+    #     --build-arg AWS_IAM_AUTH_VERSION_URL="${iam_auth_url}" \
+    #     -t ${image}:${tag} \
+    #     -f ${dockerfile}
     
+    docker build . \
+    --no-cache \
+    -t ${image}:${tag} \
+    -f ${dockerfile}
+
     # # run test
     # version=$(docker run -ti --rm ${image}:${tag} helm version --client)
     # echo $version
