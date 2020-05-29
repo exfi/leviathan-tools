@@ -28,7 +28,7 @@ build() {
     fi
     
     # docker build --no-cache --build-arg KUBECTL_VERSION=${tag} --build-arg HELM_VERSION=${helm} --build-arg AWS_IAM_AUTH_VERSION_URL="${iam_auth_url}" -t ${image}:${tag} -f ${dockerfile} .
-    docker build --no-cache -t ${image}:${tag} -f ${dockerfile} .
+    docker build -t ${image}:${tag} -f ${dockerfile} .
     
     # # run test
     # version=$(docker run -ti --rm ${image}:${tag} helm version --client)
