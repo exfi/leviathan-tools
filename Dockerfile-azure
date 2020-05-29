@@ -4,8 +4,6 @@ FROM exfi/leviathan-tools:core
 
 ARG WORKDIR=/opt/apps
 WORKDIR ${WORKDIR}
-RUN mkdir -p ${WORKDIR}/bin
-ENV PATH=$PATH:${WORKDIR}/bin
 
 #####################################################################
 

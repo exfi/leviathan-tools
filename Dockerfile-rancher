@@ -1,21 +1,22 @@
-FROM docker:stable as static-docker-source
-
-FROM alpine:edge
+FROM exfi/leviathan-tools:core
 
 #####################################################################
 
 ARG WORKDIR=/opt/apps
 WORKDIR ${WORKDIR}
-RUN mkdir -p ${WORKDIR}/bin
-ENV PATH=$PATH:${WORKDIR}/bin
 
 #####################################################################
 
-#####################################################################
+#### Rancher ####
+ARG RANCHER_VERSION=2.4.3
 
-#### Pulumi ####
-RUN pulumi plugin install resource rancher2 2.1.1
-RUN pulumi plugin install resource rke 2.0.0 --server https://github.com/jaxxstorm/pulumi-rke/releases/download/v2.0.0
+RUN curl --silent --location "https://github.com/rancher/cli/releases/download/v${RANCHER_VERSION}/rancher-linux-amd64-v${RANCHER_VERSION}.tar.gz" | tar xz -C /tmp && \
+    mv /tmp/rancher-v${RANCHER_VERSION} ${WORKDIR}/bin && \
+    chmod +x ${WORKDIR}/bin/rancher
+
+# Install pulumi plugin
+# RUN pulumi plugin install resource rancher2 2.1.1
+# RUN pulumi plugin install resource rke 2.0.0 --server https://github.com/jaxxstorm/pulumi-rke/releases/download/v2.0.0
 
 #####################################################################
 
