@@ -1,0 +1,15 @@
+
+#####################################################################
+
+#### Azure ####
+# Install azure-cli
+ARG AZURE_VERSION
+# RUN curl -L https://aka.ms/InstallAzureCli | bash
+RUN pip3 --no-cache-dir install azure-cli
+
+#####################################################################
+
+#### Pulumi ####
+# RUN pulumi plugin install resource azure 3.5.1
+
+#####################################################################
