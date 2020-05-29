@@ -9,3 +9,6 @@ script:
 env:
   - tag=core
   - tag=full
+  - tag=aws
+  - tag=gcp
+  - tag=azure
